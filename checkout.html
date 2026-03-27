@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="description" content="Secure checkout - Complete your Mumble Global purchase safely and easily.">
+  <title>Secure Checkout | Mumble Global</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #fefcf5 0%, #fff7ed 100%);
+      color: #1e2a2f;
+      line-height: 1.5;
+      min-height: 100vh;
+    }
+
+    :root {
+      --orange-primary: #f47c20;
+      --orange-light: #ffb46e;
+      --orange-soft: #ffe1c2;
+      --orange-dark: #c95c0e;
+      --white-pure: #ffffff;
+      --gray-mild: #f5f2e8;
+      --shadow-sm: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 20px 25px -12px rgba(0, 0, 0, 0.08);
+      --green-success: #4caf50;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Header */
+    .checkout-header {
+      background: var(--white-pure);
+      box-shadow: var(--shadow-sm);
+      padding: 1rem 0;
+      margin-bottom: 2rem;
+      border-bottom: 3px solid var(--orange-primary);
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .logo i {
+      font-size: 2rem;
+      color: var(--orange-primary);
+    }
+
+    .logo h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #1e2a2f;
+    }
+
+    .logo span {
+      color: var(--orange-primary);
+    }
+
+    .security-badge {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--gray-mild);
+      padding: 8px 16px;
+      border-radius: 40px;
+      font-size: 0.9rem;
+    }
+
+    /* Checkout Layout */
+    .checkout-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+
+    @media (max-width: 768px) {
+      .checkout-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Form Sections */
+    .checkout-section {
+      background: var(--white-pure);
+      border-radius: 24px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .section-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 1.2rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--orange-soft);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-title i {
+      color: var(--orange-primary);
+    }
+
+    /* Form Styles */
+    .form-group {
+      margin-bottom: 1.2rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+      color: #2c3e2f;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid #e5e7eb;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-family: inherit;
+      transition: all 0.2s;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--orange-primary);
+      box-shadow: 0 0 0 3px rgba(244, 124, 32, 0.1);
+    }
+
+    /* Order Summary */
+    .order-summary {
+      background: var(--white-pure);
+      border-radius: 24px;
+      padding: 1.5rem;
+      box-shadow: var(--shadow-md);
+      position: sticky;
+      top: 20px;
+    }
+
+    .order-items {
+      max-height: 300px;
+      overflow-y: auto;
+      margin: 1rem 0;
+    }
+
+    .order-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.8rem 0;
+      border-bottom: 1px solid var(--orange-soft);
+    }
+
+    .order-item-info {
+      flex: 1;
+    }
+
+    .order-item-name {
+      font-weight: 600;
+    }
+
+    .order-item-price {
+      font-weight: 700;
+      color: var(--orange-dark);
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.8rem 0;
+      border-bottom: 1px solid var(--orange-soft);
+    }
+
+    .summary-row.total {
+      border-top: 2px solid var(--orange-primary);
+      border-bottom: none;
+      font-size: 1.2rem;
+      font-weight: 800;
+      margin-top: 0.5rem;
+      padding-top: 1rem;
+    }
+
+    /* Buttons */
+    .btn-primary {
+      background-color: var(--orange-primary);
+      color: white;
+      border: none;
+      padding: 14px 32px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      border-radius: 60px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--orange-dark);
+      transform: scale(1.02);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    /* Payment Methods */
+    .payment-methods {
+      display: flex;
+      gap: 1rem;
+      margin: 1rem 0;
+      flex-wrap: wrap;
+    }
+
+    .payment-method {
+      flex: 1;
+      text-align: center;
+      padding: 1rem;
+      border: 2px solid var(--orange-soft);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .payment-method.selected {
+      border-color: var(--orange-primary);
+      background: var(--orange-soft);
+    }
+
+    .payment-method i {
+      font-size: 1.5rem;
+      color: var(--orange-primary);
+      margin-bottom: 0.5rem;
+    }
+
+    /* Trust Badges */
+    .trust-badges {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin: 1.5rem 0;
+      flex-wrap: wrap;
+    }
+
+    .trust-badge {
+      text-align: center;
+      font-size: 0.8rem;
+      color: #666;
+    }
+
+    .trust-badge i {
+      font-size: 1.2rem;
+      color: var(--green-success);
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+
+    /* Alert Messages */
+    .alert-error {
+      background: #fee2e2;
+      color: #dc2626;
+      padding: 12px 20px;
+      border-radius: 12px;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .alert-success {
+      background: #d4edda;
+      color: #155724;
+      padding: 12px 20px;
+      border-radius: 12px;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 24px;
+      padding: 2rem;
+      max-width: 400px;
+      text-align: center;
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateY(-50px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .modal-content i {
+      font-size: 4rem;
+      color: var(--green-success);
+      margin-bottom: 1rem;
+    }
+
+    footer {
+      background: #1e2a2f;
+      color: #e6e2d6;
+      padding: 2rem 0;
+      margin-top: 3rem;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="checkout-header">
+    <div class="container header-content">
+      <a href="index.html" class="logo">
+        <h1>Mumble <span>Global</span></h1>
+      </a>
+      <div class="security-badge">
+        <span>Secure Checkout</span>
+        <i class="fas fa-shield-alt"></i>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <div class="container">
+      <div class="checkout-grid">
+        <!-- Left Column - Checkout Form -->
+        <div>
+          <div class="checkout-section">
+            <h2 class="section-title">
+              <i class="fas fa-user"></i>
+              Contact Information
+            </h2>
+            <form id="checkoutForm">
+              <div class="form-group">
+                <label for="fullName">Full Name *</label>
+                <input type="text" id="fullName" name="fullName" required placeholder="Enter your full name">
+              </div>
+              <div class="form-group">
+                <label for="email">Email Address *</label>
+                <input type="email" id="email" name="email" required placeholder="your@email.com">
+              </div>
+              <div class="form-group">
+                <label for="phone">Phone Number *</label>
+                <input type="tel" id="phone" name="phone" required placeholder="(555) 555-5555">
+              </div>
+          </div>
+
+          <div class="checkout-section">
+            <h2 class="section-title">
+              <i class="fas fa-map-marker-alt"></i>
+              Shipping Address
+            </h2>
+              <div class="form-group">
+                <label for="address">Address *</label>
+                <input type="text" id="address" name="address" required placeholder="123 Main St">
+              </div>
+              <div class="form-group">
+                <label for="address2">Apartment, suite, etc. (optional)</label>
+                <input type="text" id="address2" name="address2" placeholder="Apt 4B">
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="city">City *</label>
+                  <input type="text" id="city" name="city" required placeholder="City">
+                </div>
+                <div class="form-group">
+                  <label for="state">State</label>
+                    <input type="text" name="state" placeholder="Enter your state">
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="zip">ZIP Code *</label>
+                  <input type="text" id="zip" name="zip" required placeholder="12345">
+                </div>
+                <div class="form-group">
+                  <label for="country">Country *</label>
+                  <select id="country" name="country" required>
+                    <option value="US">United States</option>
+                    <option value="CA">Canada</option>
+                    <option value="UK">United Kingdom</option>
+                    <option value="AU">Pakistan</option>
+                  </select>
+                </div>
+              </div>
+          </div>
+
+          <div class="checkout-section">
+            <h2 class="section-title">
+              <i class="fas fa-credit-card"></i>
+              Payment Method
+            </h2>
+            <div class="payment-methods">
+              <div class="payment-method selected" data-method="credit">
+                <i class="fas fa-credit-card"></i>
+                <div>Credit Card</div>
+              </div>
+
+              <div class="payment-method" data-method="phone">
+                <i class="fas fa-phone-alt"></i>
+                <div>Pay by Phone</div>
+              </div>
+            </div>
+
+            <div id="creditCardFields">
+              <div class="form-group">
+                <label for="cardNumber">Card Number</label>
+                <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456">
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="expiry">Expiry Date</label>
+                  <input type="text" id="expiry" placeholder="MM/YY">
+                </div>
+                <div class="form-group">
+                  <label for="cvv">CVV</label>
+                  <input type="text" id="cvv" placeholder="123">
+                </div>
+              </div>
+            </div>
+            
+            
+            <div id="phoneFields" style="display: none;">
+              <div class="alert-success">
+                <i class="fas fa-phone-alt"></i>
+                <strong>Pay by Phone</strong><br>
+                Call us at <strong>1-800-MUMBLE-GO</strong> to complete your order with a friendly representative.
+              </div>
+            </div>
+          </div>
+          
+          <button type="submit" class="btn-primary" id="placeOrderBtn"> Place Order</button>
+          </form>
+        </div>
+
+        <!-- Right Column - Order Summary -->
+        <div>
+          <div class="order-summary">
+            <h2 class="section-title">
+              <i class="fas fa-shopping-cart"></i>
+              Order Summary
+            </h2>
+            <div id="orderItems" class="order-items">
+              <!-- Cart items will be loaded here -->
+            </div>
+            <div id="orderTotals">
+              <!-- Totals will be calculated here -->
+            </div>
+            <div class="trust-badges">
+              <div class="trust-badge">
+                <i class="fas fa-lock"></i>
+                <div>256-bit SSL</div>
+              </div>
+              <div class="trust-badge">
+                <i class="fas fa-shield-alt"></i>
+                <div>Fraud Protection</div>
+              </div>
+              <div class="trust-badge">
+                <i class="fas fa-undo-alt"></i>
+                <div>15-Day Returns</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>Mumble Global — inspiring safe, creative coding for seniors.<br>
+      📞 Call us: 1-800-MUMBLE-GO | ✉️ mumbleglobal@gmail.com</p>
+      <p style="margin-top: 1rem;">© 2025 Mumble Global – Secure Checkout</p>
+    </div>
+  </footer>
+
+  <div id="successModal" class="modal">
+    <div class="modal-content">
+      <i class="fas fa-check-circle"></i>
+      <h2>Order Placed Successfully!</h2>
+      <p>Thank you for your purchase. You'll receive a confirmation email shortly.</p>
+      <button class="btn-primary" onclick="window.location.href='index.html'" style="margin-top: 1rem;">
+        Continue Shopping
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // Product catalog
+    const products = {
+      'starter': { name: 'Starter Kit', price: 29, icon: 'fa-gift' },
+      'membership': { name: 'Annual Membership', price: 199, icon: 'fa-calendar-check' },
+      'coaching': { name: 'Premium Coaching Bundle', price: 79, icon: 'fa-headset' },
+      'accessibility': { name: 'Accessibility Device Kit', price: 49, icon: 'fa-tablet-alt' }
+    };
+
+    // Get cart from localStorage
+    let cart = JSON.parse(localStorage.getItem('mumbleCart')) || [];
+
+    // Calculate totals
+    function calculateSubtotal() {
+      return cart.reduce((total, item) => {
+        const product = products[item.id];
+        return total + (product.price * item.quantity);
+      }, 0);
+    }
+
+    function calculateShipping(subtotal) {
+      return subtotal > 50 ? 0 : 5.99;
+    }
+
+    function calculateTax(subtotal) {
+      return subtotal * 0.10;
+    }
+
+    function calculateTotal(subtotal, shipping, tax) {
+      return subtotal + shipping + tax;
+    }
+
+    // Render order summary
+    function renderOrderSummary() {
+      const orderItemsDiv = document.getElementById('orderItems');
+      const orderTotalsDiv = document.getElementById('orderTotals');
+      
+      if (cart.length === 0) {
+        orderItemsDiv.innerHTML = '<p style="text-align: center; color: #666;">Your cart is empty</p>';
+        orderTotalsDiv.innerHTML = '';
+        document.getElementById('placeOrderBtn').disabled = true;
+        return;
+      }
+      
+      let itemsHtml = '';
+      cart.forEach(item => {
+        const product = products[item.id];
+        if (!product) return;
+        itemsHtml += `
+          <div class="order-item">
+            <div class="order-item-info">
+              <div class="order-item-name">${product.name}</div>
+              <div style="font-size: 0.8rem; color: #666;">Qty: ${item.quantity}</div>
+            </div>
+            <div class="order-item-price">$${(product.price * item.quantity).toFixed(2)}</div>
+          </div>
+        `;
+      });
+      
+      orderItemsDiv.innerHTML = itemsHtml;
+      
+      const subtotal = calculateSubtotal();
+      const shipping = calculateShipping(subtotal);
+      const tax = calculateTax(subtotal);
+      const total = calculateTotal(subtotal, shipping, tax);
+      
+      orderTotalsDiv.innerHTML = `
+        <div class="summary-row">
+          <span>Subtotal</span>
+          <span>$${subtotal.toFixed(2)}</span>
+        </div>
+        <div class="summary-row">
+          <span>Shipping</span>
+          <span>${shipping === 0 ? 'FREE' : '$' + shipping.toFixed(2)}</span>
+        </div>
+        <div class="summary-row">
+          <span>Tax (10%)</span>
+          <span>$${tax.toFixed(2)}</span>
+        </div>
+        <div class="summary-row total">
+          <span>Total</span>
+          <span style="color: var(--orange-primary); font-size: 1.4rem;">$${total.toFixed(2)}</span>
+        </div>
+      `;
+    }
+
+    // Payment method selection
+    let selectedPaymentMethod = 'credit';
+    
+    document.querySelectorAll('.payment-method').forEach(method => {
+      method.addEventListener('click', function() {
+        document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('selected'));
+        this.classList.add('selected');
+        selectedPaymentMethod = this.dataset.method;
+        
+        // Show/hide appropriate fields
+        document.getElementById('creditCardFields').style.display = selectedPaymentMethod === 'credit' ? 'block' : 'none';
+        document.getElementById('paypalFields').style.display = selectedPaymentMethod === 'paypal' ? 'block' : 'none';
+        document.getElementById('phoneFields').style.display = selectedPaymentMethod === 'phone' ? 'block' : 'none';
+      });
+    });
+
+    // Validate form
+    function validateForm() {
+      const fullName = document.getElementById('fullName').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const address = document.getElementById('address').value.trim();
+      const city = document.getElementById('city').value.trim();
+      const state = document.getElementById('state').value;
+      const zip = document.getElementById('zip').value.trim();
+      const country = document.getElementById('country').value;
+      
+      if (!fullName || !email || !phone || !address || !city || !state || !zip || !country) {
+        alert('Please fill in all required fields.');
+        return false;
+      }
+      
+      if (!email.includes('@') || !email.includes('.')) {
+        alert('Please enter a valid email address.');
+        return false;
+      }
+      
+      if (selectedPaymentMethod === 'credit') {
+        const cardNumber = document.getElementById('cardNumber').value.trim();
+        const expiry = document.getElementById('expiry').value.trim();
+        const cvv = document.getElementById('cvv').value.trim();
+        
+        if (!cardNumber || !expiry || !cvv) {
+          alert('Please enter your credit card details.');
+          return false;
+        }
+        
+        if (cardNumber.replace(/\s/g, '').length < 15) {
+          alert('Please enter a valid card number.');
+          return false;
+        }
+      }
+      
+      return true;
+    }
+
+    // Place order
+    function placeOrder() {
+      if (cart.length === 0) {
+        alert('Your cart is empty. Please add items before checking out.');
+        window.location.href = 'shop.html';
+        return;
+      }
+      
+      if (!validateForm()) {
+        return;
+      }
+      
+      if (selectedPaymentMethod === 'phone') {
+        alert('Please call us at 1-800-MUMBLE-GO to complete your order. Our friendly team is ready to help!');
+        return;
+      }
+      
+      if (selectedPaymentMethod === 'paypal') {
+        alert('Redirecting to PayPal for secure payment...');
+        // In production, redirect to PayPal
+        return;
+      }
+      
+      // Process order
+      const orderData = {
+        orderId: 'ORD-' + Date.now(),
+        customer: {
+          name: document.getElementById('fullName').value,
+          email: document.getElementById('email').value,
+          phone: document.getElementById('phone').value,
+          address: {
+            street: document.getElementById('address').value,
+            street2: document.getElementById('address2').value,
+            city: document.getElementById('city').value,
+            state: document.getElementById('state').value,
+            zip: document.getElementById('zip').value,
+            country: document.getElementById('country').value
+          }
+        },
+        items: cart,
+        subtotal: calculateSubtotal(),
+        shipping: calculateShipping(calculateSubtotal()),
+        tax: calculateTax(calculateSubtotal()),
+        total: calculateTotal(calculateSubtotal(), calculateShipping(calculateSubtotal()), calculateTax(calculateSubtotal())),
+        date: new Date().toISOString()
+      };
+      
+      // Save order to localStorage for demo
+      localStorage.setItem('lastOrder', JSON.stringify(orderData));
+      
+      // Clear cart
+      localStorage.removeItem('mumbleCart');
+      
+      // Show success modal
+      document.getElementById('successModal').style.display = 'flex';
+    }
+
+    // Initialize page
+    document.addEventListener('DOMContentLoaded', function() {
+      renderOrderSummary();
+      
+      // Set active navigation link
+      const currentPage = window.location.pathname.split('/').pop() || 'checkout.html';
+      const navLinks = document.querySelectorAll('.nav-links a');
+      navLinks.forEach(link => {
+        const href = link.getAttribute('href');
+        if (href === currentPage) {
+          link.classList.add('active');
+        }
+      });
+      
+      // Form submission
+      document.getElementById('checkoutForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        placeOrder();
+      });
+    });
+  </script>
+</body>
+</html>

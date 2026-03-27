@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="description" content="Accessibility Device Kit - Large-print keyboard overlay, ergonomic stylus, and voice-controlled shortcuts for easier coding.">
+  <title>Accessibility Device Kit | Mumble Global</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #fefcf5;
+      color: #1e2a2f;
+      line-height: 1.5;
+    }
+
+    :root {
+      --orange-primary: #f47c20;
+      --orange-light: #ffb46e;
+      --orange-soft: #ffe1c2;
+      --orange-dark: #c95c0e;
+      --white-pure: #ffffff;
+      --gray-mild: #f5f2e8;
+      --shadow-sm: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 20px 25px -12px rgba(0, 0, 0, 0.08);
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 28px;
+    }
+
+    header {
+      background: var(--white-pure);
+      box-shadow: var(--shadow-sm);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 2px solid var(--orange-light);
+    }
+
+    .nav-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .logo i {
+      font-size: 2rem;
+      color: var(--orange-primary);
+    }
+
+    .logo h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #1e2a2f;
+    }
+
+    .logo span {
+      color: var(--orange-primary);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      font-weight: 600;
+      color: #2c3e2f;
+      font-size: 1.1rem;
+      transition: 0.2s;
+      padding: 0.4rem 0;
+      border-bottom: 2px solid transparent;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--orange-primary);
+      border-bottom-color: var(--orange-primary);
+    }
+
+    .btn-primary {
+      background-color: var(--orange-primary);
+      color: white;
+      border: none;
+      padding: 14px 36px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      border-radius: 60px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--orange-dark);
+      transform: scale(1.02);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--orange-primary);
+      color: var(--orange-primary);
+      padding: 12px 32px;
+      font-weight: 600;
+      border-radius: 60px;
+      transition: 0.2s;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+
+    .btn-outline:hover {
+      background: var(--orange-soft);
+    }
+
+    .product-hero {
+      background: linear-gradient(135deg, #fff7ed 0%, #fff0e0 100%);
+      padding: 3rem 0;
+      border-radius: 0 0 2rem 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .product-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 3rem;
+      align-items: flex-start;
+    }
+
+    .product-image {
+      flex: 1;
+      text-align: center;
+      background: var(--white-pure);
+      border-radius: 32px;
+      padding: 2rem;
+      box-shadow: var(--shadow-md);
+    }
+
+    .product-image i {
+      font-size: 8rem;
+      color: var(--orange-primary);
+    }
+
+    .product-details {
+      flex: 1;
+    }
+
+    .product-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      color: #1e2a2f;
+    }
+
+    .price-large {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--orange-dark);
+      margin: 1.5rem 0;
+    }
+
+    .features-list {
+      list-style: none;
+      margin: 1.5rem 0;
+    }
+
+    .features-list li {
+      margin-bottom: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .features-list i {
+      color: var(--orange-primary);
+      font-size: 1.2rem;
+    }
+
+    .section {
+      padding: 3rem 0;
+    }
+
+    .section-title {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 2rem;
+      border-left: 7px solid var(--orange-primary);
+      padding-left: 1.2rem;
+    }
+
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+
+    .benefit-card {
+      background: var(--white-pure);
+      border-radius: 24px;
+      padding: 1.8rem;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--orange-soft);
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+
+    .benefit-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .benefit-card i {
+      font-size: 2.5rem;
+      color: var(--orange-primary);
+      margin-bottom: 1rem;
+    }
+
+    .kit-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+
+    .kit-item {
+      background: var(--white-pure);
+      border-radius: 20px;
+      padding: 1.5rem;
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .kit-item i {
+      font-size: 3rem;
+      color: var(--orange-primary);
+      margin-bottom: 1rem;
+    }
+
+    .kit-item h3 {
+      margin-bottom: 0.5rem;
+    }
+
+    .call-cta {
+      background: var(--orange-primary);
+      color: white;
+      border-radius: 60px;
+      text-align: center;
+      padding: 2rem;
+      margin: 2rem 0;
+    }
+
+    .call-cta a {
+      color: white;
+      font-size: 1.7rem;
+      font-weight: 800;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    footer {
+      background: #1e2a2f;
+      color: #e6e2d6;
+      padding: 2rem 0;
+      margin-top: 2rem;
+      text-align: center;
+    }
+
+    .cart-notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #4caf50;
+      color: white;
+      padding: 15px 25px;
+      border-radius: 50px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      animation: slideIn 0.3s ease-out;
+      font-weight: 600;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    .btn-add-to-cart {
+      background: var(--orange-primary);
+      color: white;
+      border: none;
+      padding: 14px 36px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      border-radius: 60px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-add-to-cart:hover {
+      background: var(--orange-dark);
+      transform: scale(1.02);
+    }
+
+    @media (max-width: 780px) {
+      .nav-bar {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      .product-title {
+        font-size: 1.8rem;
+      }
+      .price-large {
+        font-size: 2rem;
+      }
+      .call-cta a {
+        font-size: 1.3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav-bar">
+      <a href="index.html" class="logo">
+        <h1>Mumble <span>Global</span></h1>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="information.html">Information</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="blog.html">Blog</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main>
+    <div class="product-hero">
+      <div class="container product-grid">
+        <div class="product-image">
+          <i class="fas fa-tablet-alt"></i>
+          <h3 style="margin-top: 1rem;">Accessibility Device Kit</h3>
+          <p style="color: #666;">Designed for comfortable, stress-free coding</p>
+        </div>
+        <div class="product-details">
+          <h1 class="product-title">Code Comfortably with Our Accessibility Kit</h1>
+          <p style="font-size: 1.2rem; margin: 1rem 0;">Specially designed tools to make coding easier, more comfortable, and accessible for seniors. Everything you need to reduce strain and increase productivity.</p>
+          <div class="price-large">$49 <span style="font-size: 1.2rem;">one-time purchase</span></div>
+          <button onclick="addToCart('accessibility')" class="btn-add-to-cart">
+            <i class="fas fa-shopping-cart"></i> Add to Cart
+          </button>
+
+          <ul class="features-list">
+            <li><i class="fas fa-check-circle"></i> Large-print keyboard overlay</li>
+            <li><i class="fas fa-check-circle"></i> Ergonomic stylus pen</li>
+            <li><i class="fas fa-check-circle"></i> Voice-controlled shortcut guide</li>
+            <li><i class="fas fa-check-circle"></i> Anti-fatigue wrist rest</li>
+            <li><i class="fas fa-check-circle"></i> Screen magnifier attachment</li>
+            <li><i class="fas fa-check-circle"></i> Free shipping & lifetime warranty</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="section">
+        <h2 class="section-title">What's Included in the Kit</h2>
+        <div class="kit-content">
+          <div class="kit-item">
+            <i class="fas fa-keyboard"></i>
+            <h3>Large-Print Keyboard Overlay</h3>
+            <p>Soft silicone overlay with extra-large, high-contrast letters. Reduces eye strain and typing errors. Fits most standard keyboards.</p>
+          </div>
+          <div class="kit-item">
+            <i class="fas fa-pen-fancy"></i>
+            <h3>Ergonomic Stylus Pen</h3>
+            <p>Designed for tablet and touchscreen coding. Soft grip reduces hand fatigue. Precision tip for accurate tapping and drawing.</p>
+          </div>
+          <div class="kit-item">
+            <i class="fas fa-microphone-alt"></i>
+            <h3>Voice Control Guide</h3>
+            <p>Quick-reference card with voice commands for coding. Control your computer without typing! Compatible with Windows, Mac, and iPad.</p>
+          </div>
+          <div class="kit-item">
+            <i class="fas fa-hand-peace"></i>
+            <h3>Anti-Fatigue Wrist Rest</h3>
+            <p>Memory foam wrist rest with ergonomic design. Provides proper support during long coding sessions. Reduces risk of strain injuries.</p>
+          </div>
+          <div class="kit-item">
+            <i class="fas fa-search-plus"></i>
+            <h3>Screen Magnifier</h3>
+            <p>Clip-on magnifier for laptop screens. Makes text and code 2x larger. Perfect for detailed work and reducing eye fatigue.</p>
+          </div>
+          <div class="kit-item">
+            <i class="fas fa-book"></i>
+            <h3>Setup Guide</h3>
+            <p>Large-print instruction manual with step-by-step photos. Easy to follow, even for beginners. Includes tips for optimal ergonomics.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2 class="section-title">Why Choose Our Accessibility Kit?</h2>
+        <div class="benefits-grid">
+          <div class="benefit-card">
+            <i class="fas fa-eye"></i>
+            <h3>Improved Visibility</h3>
+            <p>Large-print overlays and screen magnifiers make text easier to read. No more squinting or straining to see small letters.</p>
+          </div>
+          <div class="benefit-card">
+            <i class="fas fa-hand-holding-heart"></i>
+            <h3>Reduced Physical Strain</h3>
+            <p>Ergonomic design helps prevent wrist pain, hand fatigue, and repetitive strain injuries. Code longer without discomfort.</p>
+          </div>
+          <div class="benefit-card">
+            <i class="fas fa-microphone"></i>
+            <h3>Voice-Enabled Coding</h3>
+            <p>Learn to use voice commands for typing and navigation. Perfect for those with arthritis or limited hand mobility.</p>
+          </div>
+          <div class="benefit-card">
+            <i class="fas fa-smile"></i>
+            <h3>Increased Confidence</h3>
+            <p>With tools that make coding easier, you'll feel more confident and capable. Focus on learning, not on physical barriers.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2 class="section-title">What Our Customers Say</h2>
+        <div class="benefits-grid">
+          <div class="benefit-card">
+            <i class="fas fa-star" style="color: #ffc107;"></i>
+            <i class="fas fa-star" style="color: #ffc107;"></i>
+            <i class="fas fa-star" style="color: #ffc107;"></i>
+            <i class="fas fa-star" style="color: #ffc107;"></i>
+            <i class="fas fa-star" style="color: #ffc107;"></i>
+            <p style="margin-top: 1rem;">"The keyboard overlay changed everything! I can finally see the letters clearly without my reading glasses. My typing speed has doubled!"</p>
+            <strong>- Helen, 29</strong>
+          </div>
+          <div class="benefit-card">
+            <i class="fas fa-star" style="color: #ffc107;"></i>
+            <i class="fas fa-star" style="color: #ffc107;"></i>
+            <i class="fas fa-star" style="color: #ffc107;"></i>
+            <i class="fas fa-star" style="color: #ffc107;"></i>
+            <i class="fas fa-star" style="color: #ffc107;"></i>
+            <p style="margin-top: 1rem;">"The wrist rest is a game-changer. I can code for hours now without pain. The stylus is perfect for my tablet coding sessions."</p>
+            <strong>- Robert, 35</strong>
+          </div>
+          <div class="benefit-card">
+            <i class="fas fa-star" style="color: #ffc107;"></i>
+            <i class="fas fa-star" style="color: #ffc107;"></i>
+            <i class="fas fa-star" style="color: #ffc107;"></i>
+            <i class="fas fa-star" style="color: #ffc107;"></i>
+            <i class="fas fa-star" style="color: #ffc107;"></i>
+            <p style="margin-top: 1rem;">"The voice control guide helped me set up dictation. Now I can code hands-free when my arthritis flares up. Fantastic product!"</p>
+            <strong>- Margaret, 33</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        
+        <div class="faq-item" style="margin-bottom: 1rem; border: 1px solid var(--orange-soft); border-radius: 16px; overflow: hidden;">
+          <div class="faq-question" style="background: var(--white-pure); padding: 1.2rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600;">
+            <span><i class="fas fa-question-circle" style="color: var(--orange-primary);"></i> Will this work with any computer?</span>
+            <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+          </div>
+          <div class="faq-answer" style="padding: 0 1.2rem; max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; background: var(--gray-mild);">
+            <p style="padding: 1.2rem 0;">Yes! The keyboard overlay fits most standard desktop and laptop keyboards. The stylus works with any touchscreen device. Voice control guide works with Windows, Mac, and iPad built-in voice features.</p>
+          </div>
+        </div>
+        
+        <div class="faq-item" style="margin-bottom: 1rem; border: 1px solid var(--orange-soft); border-radius: 16px; overflow: hidden;">
+          <div class="faq-question" style="background: var(--white-pure); padding: 1.2rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600;">
+            <span><i class="fas fa-question-circle" style="color: var(--orange-primary);"></i> Is the keyboard overlay removable?</span>
+            <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+          </div>
+          <div class="faq-answer" style="padding: 0 1.2rem; max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; background: var(--gray-mild);">
+            <p style="padding: 1.2rem 0;">Absolutely! The overlay is designed to be easily placed on top of your keyboard and removed whenever you want. It's made of soft, flexible silicone that won't damage your keyboard.</p>
+          </div>
+        </div>
+        
+        <div class="faq-item" style="margin-bottom: 1rem; border: 1px solid var(--orange-soft); border-radius: 16px; overflow: hidden;">
+          <div class="faq-question" style="background: var(--white-pure); padding: 1.2rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600;">
+            <span><i class="fas fa-question-circle" style="color: var(--orange-primary);"></i> Does the kit come with a warranty?</span>
+            <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+          </div>
+          <div class="faq-answer" style="padding: 0 1.2rem; max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; background: var(--gray-mild);">
+            <p style="padding: 1.2rem 0;">Yes! All components come with a lifetime warranty. If anything breaks or wears out, we'll replace it for free. Your satisfaction is guaranteed.</p>
+          </div>
+        </div>
+        
+        <div class="faq-item" style="margin-bottom: 1rem; border: 1px solid var(--orange-soft); border-radius: 16px; overflow: hidden;">
+          <div class="faq-question" style="background: var(--white-pure); padding: 1.2rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600;">
+            <span><i class="fas fa-question-circle" style="color: var(--orange-primary);"></i> How long does shipping take?</span>
+            <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+          </div>
+          <div class="faq-answer" style="padding: 0 1.2rem; max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; background: var(--gray-mild);">
+            <p style="padding: 1.2rem 0;">Free standard shipping within the US takes 3-5 business days. Expedited shipping available at checkout for an additional fee. International shipping times vary by location.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="call-cta">
+        <a href="tel:+18005551234">
+          <i class="fas fa-phone-alt"></i> 📞 Call Now: 1-800-MUMBLE-GO
+        </a>
+        <p style="margin-top: 12px;">Have questions about the Accessibility Kit? Our friendly team is ready to help!</p>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p> Mumble Global — inspiring safe, creative coding for seniors.<br>
+      📞 Call us: 1-800-MUMBLE-GO | ✉️ mumbleglobal@gmail.com</p>
+      <p style="margin-top: 1rem;">© 2025 Mumble Global – Accessibility for all learners.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Product catalog
+    const products = {
+      'starter': { name: 'Starter Kit', price: 29, icon: 'fa-gift' },
+      'membership': { name: 'Annual Membership', price: 199, icon: 'fa-calendar-check' },
+      'coaching': { name: 'Premium Coaching Bundle', price: 79, icon: 'fa-headset' },
+      'accessibility': { name: 'Accessibility Device Kit', price: 49, icon: 'fa-tablet-alt' }
+    };
+
+    // Get cart from localStorage
+    let cart = JSON.parse(localStorage.getItem('mumbleCart')) || [];
+
+    // Save cart to localStorage
+    function saveCart() {
+      localStorage.setItem('mumbleCart', JSON.stringify(cart));
+    }
+
+    // Add item to cart
+    function addToCart(productId) {
+      const product = products[productId];
+      if (!product) {
+        console.error('Product not found:', productId);
+        return;
+      }
+      
+      const existingItem = cart.find(item => item.id === productId);
+      
+      if (existingItem) {
+        existingItem.quantity += 1;
+      } else {
+        cart.push({
+          id: productId,
+          quantity: 1
+        });
+      }
+      
+      saveCart();
+      showNotification(`${product.name} added to cart!`);
+    }
+
+    // Show notification when item is added
+    function showNotification(message) {
+      // Remove any existing notification
+      const existingNotification = document.querySelector('.cart-notification');
+      if (existingNotification) {
+        existingNotification.remove();
+      }
+      
+      // Create new notification
+      const notification = document.createElement('div');
+      notification.className = 'cart-notification';
+      notification.innerHTML = `
+        <i class="fas fa-check-circle"></i>
+        <span>${message}</span>
+        <a href="cart.html" style="background: white; color: var(--orange-primary); padding: 8px 16px; border-radius: 40px; text-decoration: none; margin-left: 10px; font-weight: 600;">
+          View Cart <i class="fas fa-arrow-right"></i>
+        </a>
+      `;
+      
+      document.body.appendChild(notification);
+      
+      // Auto remove after 3 seconds
+      setTimeout(() => {
+        notification.remove();
+      }, 3000);
+    }
+
+    // FAQ Toggle Functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      // FAQ Toggle
+      const faqQuestions = document.querySelectorAll('.faq-question');
+      
+      faqQuestions.forEach((question, index) => {
+        const answer = question.nextElementSibling;
+        const icon = question.querySelector('.faq-icon i');
+        
+        // Make sure answer starts closed
+        if (answer) {
+          answer.style.maxHeight = '0';
+          answer.style.padding = '0 1.2rem';
+        }
+        
+        question.addEventListener('click', function() {
+          if (answer.style.maxHeight === '0px' || answer.style.maxHeight === '') {
+            // Open this FAQ
+            answer.style.maxHeight = '500px';
+            answer.style.padding = '1.2rem';
+            if (icon) {
+              icon.className = 'fas fa-chevron-up';
+            }
+            
+            // Close all other FAQs
+            faqQuestions.forEach((otherQuestion, otherIndex) => {
+              if (otherIndex !== index) {
+                const otherAnswer = otherQuestion.nextElementSibling;
+                const otherIcon = otherQuestion.querySelector('.faq-icon i');
+                if (otherAnswer) {
+                  otherAnswer.style.maxHeight = '0';
+                  otherAnswer.style.padding = '0 1.2rem';
+                  if (otherIcon) {
+                    otherIcon.className = 'fas fa-chevron-down';
+                  }
+                }
+              }
+            });
+          } else {
+            // Close this FAQ
+            answer.style.maxHeight = '0';
+            answer.style.padding = '0 1.2rem';
+            if (icon) {
+              icon.className = 'fas fa-chevron-down';
+            }
+          }
+        });
+      });
+      
+      // Set active navigation link
+      const currentPage = window.location.pathname.split('/').pop() || 'accessibility.html';
+      const navLinks = document.querySelectorAll('.nav-links a');
+      navLinks.forEach(link => {
+        const href = link.getAttribute('href');
+        if (href === currentPage) {
+          link.classList.add('active');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="description" content="Shop Mumble Global products - coding kits, memberships, and accessibility tools for senior learners.">
+  <title>Mumble Global | Shop</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* Additional styles for shop page */
+    .cart-notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #4caf50;
+      color: white;
+      padding: 15px 25px;
+      border-radius: 50px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      animation: slideIn 0.3s ease-out;
+      font-weight: 600;
+    }
+    
+    @keyframes slideIn {
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+    
+    .cart-count {
+      background: var(--orange-primary);
+      color: white;
+      border-radius: 50%;
+      padding: 2px 8px;
+      font-size: 12px;
+      font-weight: bold;
+      margin-left: 5px;
+    }
+    
+    .cart-icon-link {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    .btn-add-to-cart {
+      background: var(--orange-primary);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-weight: 600;
+      border-radius: 60px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      justify-content: center;
+    }
+    
+    .btn-add-to-cart:hover {
+      background: var(--orange-dark);
+      transform: scale(1.02);
+    }
+    
+    .btn-view-cart {
+      background: var(--orange-primary);
+      color: white;
+      border: none;
+      padding: 8px 20px;
+      font-weight: 600;
+      border-radius: 60px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      margin-left: 10px;
+    }
+    
+    .btn-view-cart:hover {
+      background: var(--orange-dark);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav-bar">
+      <a href="index.html" class="logo">
+        <h1>Mumble <span>Global</span></h1>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="information.html">Information</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li>
+          <a href="cart.html" class="cart-icon-link">
+            <i class="fas fa-shopping-cart"></i> Cart
+            <span id="cartCount" class="cart-count">0</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <section>
+        <h2 class="section-title">Shop — Plans & Learning Kits</h2>
+        <p style="font-size: 1.1rem; margin-bottom: 2rem;">Choose the perfect learning path for your coding journey. All purchases come with our 30-day satisfaction guarantee.</p>
+        
+        <div class="card-grid">
+          <div class="card">
+            <i class="fas fa-gift"></i>
+            <h3>Starter Kit</h3>
+            <p>Perfect for beginners: 10 creative projects + printable manual + 2 video calls with a mentor.</p>
+            <div class="price">$29 <span style="font-size: 1rem;">one-time</span></div>
+            <button onclick="addToCart('starter')" class="btn-add-to-cart">
+              <i class="fas fa-shopping-cart"></i> Add to Cart
+            </button>
+            <button onclick="goToPage('starter.html')" class="btn-outline" style="margin-top: 10px; width: 100%; justify-content: center;">
+              <i class="fas fa-info-circle"></i> View Details
+            </button>
+          </div>
+
+          <div class="card">
+            <i class="fas fa-calendar-check"></i>
+            <h3>Annual Membership</h3>
+            <p>Full access to crowd-sourced code library, live workshops, and new creative content every month.</p>
+            <div class="price">$199/year <span style="font-size: 1rem;">(save 40%)</span></div>
+            <button onclick="addToCart('membership')" class="btn-add-to-cart">
+              <i class="fas fa-shopping-cart"></i> Add to Cart
+            </button>
+            <button onclick="goToPage('subscribe.html')" class="btn-outline" style="margin-top: 10px; width: 100%; justify-content: center;">
+              <i class="fas fa-info-circle"></i> View Details
+            </button>
+          </div>
+
+          <div class="card">
+            <i class="fas fa-headset"></i>
+            <h3>Premium Coaching Bundle</h3>
+            <p>Weekly 1-on-1 sessions with senior-friendly coding coaches + priority support hotline.</p>
+            <div class="price">$79/month</div>
+            <button onclick="addToCart('coaching')" class="btn-add-to-cart">
+              <i class="fas fa-shopping-cart"></i> Add to Cart
+            </button>
+            <button onclick="goToPage('enroll.html')" class="btn-outline" style="margin-top: 10px; width: 100%; justify-content: center;">
+              <i class="fas fa-info-circle"></i> View Details
+            </button>
+          </div>
+
+          <div class="card">
+            <i class="fas fa-tablet-alt"></i>
+            <h3>Accessibility Device Kit</h3>
+            <p>Large-print keyboard overlay, ergonomic stylus, and voice-controlled shortcuts for easier coding.</p>
+            <div class="price">$49</div>
+            <button onclick="addToCart('accessibility')" class="btn-add-to-cart">
+              <i class="fas fa-shopping-cart"></i> Add to Cart
+            </button>
+            <button onclick="goToPage('accessibility.html')" class="btn-outline" style="margin-top: 10px; width: 100%; justify-content: center;">
+              <i class="fas fa-info-circle"></i> View Details
+            </button>
+          </div>
+        </div>
+        
+        <div id="shopMessage" style="margin-top: 2rem;"></div>
+        
+        <div style="background: var(--orange-soft); border-radius: 28px; padding: 2rem; margin: 2rem 0; text-align: center;">
+          <h3><i class="fas fa-truck"></i> Free Shipping & Secure Checkout</h3>
+          <p>All physical products ship free within the US. Digital products delivered instantly via email. All payments are processed securely.</p>
+          <p style="margin-top: 1rem;"><strong>Questions about your purchase?</strong> Call us at 1-800-MUMBLE-GO</p>
+        </div>
+      </section>
+      
+      <div class="call-cta" style="margin-bottom: 2rem;">
+        <a href="tel:+18005551234">
+          <i class="fas fa-phone-alt"></i> 📞 Call to Order: 1-800-MUMBLE-GO
+        </a>
+        <p>Prefer to order by phone? Our friendly team is ready to assist you!</p>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p> Mumble Global — inspiring safe, creative coding for seniors.<br>
+      📞 Call us: 1-800-MUMBLE-GO | ✉️ mumbleglobal@gmail.com</p>
+      <p style="margin-top: 1rem;">© 2025 Mumble Global – Crowd-sourced learning, trusted by thousands.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Product catalog with details
+    const products = {
+      'starter': {
+        id: 'starter',
+        name: 'Starter Kit',
+        price: 29,
+        icon: 'fa-gift',
+        description: '10 creative projects + printable manual + 2 mentor calls'
+      },
+      'membership': {
+        id: 'membership',
+        name: 'Annual Membership',
+        price: 199,
+        icon: 'fa-calendar-check',
+        description: 'Full access to library, workshops, and all courses'
+      },
+      'coaching': {
+        id: 'coaching',
+        name: 'Premium Coaching Bundle',
+        price: 79,
+        icon: 'fa-headset',
+        description: 'Weekly 1-on-1 sessions + priority support'
+      },
+      'accessibility': {
+        id: 'accessibility',
+        name: 'Accessibility Device Kit',
+        price: 49,
+        icon: 'fa-tablet-alt',
+        description: 'Large-print keyboard overlay + ergonomic stylus'
+      }
+    };
+
+    // Get cart from localStorage or initialize empty
+    let cart = JSON.parse(localStorage.getItem('mumbleCart')) || [];
+
+    // Save cart to localStorage
+    function saveCart() {
+      localStorage.setItem('mumbleCart', JSON.stringify(cart));
+      updateCartCount();
+    }
+
+    // Update cart count display
+    function updateCartCount() {
+      const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+      const cartCountElement = document.getElementById('cartCount');
+      if (cartCountElement) {
+        cartCountElement.textContent = totalItems;
+      }
+    }
+
+    // Add item to cart
+    function addToCart(productId) {
+      const product = products[productId];
+      if (!product) {
+        console.error('Product not found:', productId);
+        return;
+      }
+      
+      const existingItem = cart.find(item => item.id === productId);
+      
+      if (existingItem) {
+        existingItem.quantity += 1;
+      } else {
+        cart.push({
+          id: productId,
+          quantity: 1
+        });
+      }
+      
+      saveCart();
+      showNotification(`${product.name} added to cart!`);
+      
+      // Update cart count in navigation
+      updateCartCount();
+    }
+
+    // Show notification when item is added
+    function showNotification(message) {
+      // Remove any existing notification
+      const existingNotification = document.querySelector('.cart-notification');
+      if (existingNotification) {
+        existingNotification.remove();
+      }
+      
+      // Create new notification
+      const notification = document.createElement('div');
+      notification.className = 'cart-notification';
+      notification.innerHTML = `
+        <i class="fas fa-check-circle"></i>
+        <span>${message}</span>
+        <a href="cart.html" class="btn-view-cart" style="background: white; color: var(--orange-primary);">
+          View Cart <i class="fas fa-arrow-right"></i>
+        </a>
+      `;
+      
+      document.body.appendChild(notification);
+      
+      // Auto remove after 3 seconds
+      setTimeout(() => {
+        notification.remove();
+      }, 3000);
+    }
+
+    // Go to page function
+    function goToPage(url) {
+      window.location.href = url;
+    }
+
+    // Initialize page
+    document.addEventListener('DOMContentLoaded', function() {
+      // Update cart count on page load
+      updateCartCount();
+      
+      // Set active navigation link
+      const currentPage = window.location.pathname.split('/').pop() || 'shop.html';
+      const navLinks = document.querySelectorAll('.nav-links a');
+      navLinks.forEach(link => {
+        const href = link.getAttribute('href');
+        if (href === currentPage) {
+          link.classList.add('active');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
